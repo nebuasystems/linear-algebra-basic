@@ -1,3 +1,4 @@
+#경사하강법 시험
 import sys
 import os
 import numpy as np
