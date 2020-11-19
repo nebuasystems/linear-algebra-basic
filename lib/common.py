@@ -1,7 +1,45 @@
 import numpy as np
 
-#수치미분으로 기울기 구하기 : 학습데이터 없이
+def f(x0, x1):
+    return 20*(x0-2)**2+x1
+
+#수치미분 : 단일 변수
+def numerical_diff(z, x):
+    h = 1e-4
+    dx = (z(x+h) - z(x-h)) / (2 * h)
+
+    return dx
+
+
+#수치편미분 : 다중 변수(x변수가 여러개)
+def numerical_partial_diff(f, x):
+    """
+    :param f: 손실 함수
+    :param x: 변수(벡터, ndarray(1차원 넘파이 어레이)
+    :return: 변수 x벡터에 대한 편미분 결과(벡터) 반환
+    """
+    h = 1e-4
+    dx = np.zeros_like(x)
+
+    for i in range(x.size):
+        tmp = x[i]
+
+        x[i] = tmp + h
+        h1 = f(x)
+
+        x[i] = tmp - h
+        h2 = f(x)
+
+        dx[i] = (h1 - h2) / (2 * h)
+
+        x[i] = tmp
+
+    return dx
+
+
+#수치편미분으로 기울기 구하기 : 학습데이터 없이 <= numerical_partial_diff와 같다
 def numerical_gradient(f, x):
+    
     h = 1e-4
     gradient = np.zeros_like(x)
 
